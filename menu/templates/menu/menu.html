@@ -1,0 +1,516 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kralovska Kava</title>
+    <style>
+      body {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        background-color: #f8f8f8;
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        background-color: #8b4513;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+        position: relative;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      header img {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        height: 50px;
+        width: auto;
+      }
+      nav {
+        display: flex;
+        justify-content: center;
+        background-color: #d2691e;
+        position: relative;
+      }
+      nav a {
+        color: white;
+        padding: 14px 20px;
+        text-decoration: none;
+        text-align: center;
+        display: block;
+        transition: background-color 0.3s;
+      }
+      nav a:hover {
+        background-color: #a0522d;
+      }
+      nav .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+      nav .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #d2691e;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+      nav .dropdown-content a {
+        color: white;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+      }
+      nav .dropdown-content a:hover {
+        background-color: #a0522d;
+      }
+      nav .dropdown:hover .dropdown-content {
+        display: block;
+      }
+      .container {
+        padding: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+      }
+      .product {
+        background-color: white;
+        border: 1px solid #ddd;
+        margin: 10px;
+        padding: 10px;
+        text-align: center;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        flex: 1 1 calc(33.333% - 40px);
+        box-sizing: border-box;
+        max-width: calc(33.333% - 40px);
+      }
+      .product img {
+        width: 100%;
+        height: auto;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 15px;
+      }
+      .product h2 {
+        font-size: 1.5em;
+        margin: 10px 0;
+      }
+      .product p {
+        color: #888;
+        margin: 0 0 10px;
+      }
+      .product span {
+        display: block;
+        font-size: 1.2em;
+        color: #333;
+      }
+      .order-form,
+      .cart,
+      .payment-form {
+        background-color: white;
+        border: 1px solid #ddd;
+        margin: 10px;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .order-form h2,
+      .cart h2,
+      .payment-form h2 {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #d2691e;
+        padding-bottom: 10px;
+        color: #8b4513;
+      }
+      .order-form label,
+      .payment-form label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+      .order-form input[type="text"],
+      .order-form input[type="email"],
+      .order-form select,
+      .payment-form input[type="text"],
+      .payment-form input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+      .order-form button,
+      .cart button,
+      .payment-form button {
+        background-color: #d2691e;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .order-form button:hover,
+      .cart button:hover,
+      .payment-form button:hover {
+        background-color: #a0522d;
+      }
+      .cart ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      .cart ul li {
+        margin-bottom: 10px;
+        font-size: 1.2em;
+      }
+      .cart ul li span {
+        font-weight: bold;
+      }
+      .cart-total {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-top: 20px;
+        color: #8b4513;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img src="logo.png" alt="Kralovska Kava Logo" />
+      <h1 data-lang="title">Kralovska Kava</h1>
+      <p data-lang="subtitle">Your favorite coffee shop</p>
+      <div>
+        <select id="language-select" onchange="changeLanguage()">
+          <option value="en">English</option>
+          <option value="ru">Русский</option>
+          <option value="cz">Čeština</option>
+        </select>
+      </div>
+    </header>
+    <nav>
+      <div class="dropdown">
+        <a href="#" data-lang="home">Home</a>
+        <div class="dropdown-content">
+          <a href="#">Sub Home 1</a>
+          <a href="#">Sub Home 2</a>
+          <a href="#">Sub Home 3</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a href="#" data-lang="menu">Menu</a>
+        <div class="dropdown-content">
+          <a href="#">Coffee</a>
+          <a href="#">Tea</a>
+          <a href="#">Desserts</a>
+          <a href="#">Snacks</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a href="#" data-lang="aboutUsCareers">About Us / Careers</a>
+        <div class="dropdown-content">
+          <a href="https://www.linkedin.com">Careers</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a
+          href="https://www.google.cz/maps/place/%C4%8Cern%C3%BD+Most,+198+00+Praha+14/@50.1046785,14.5632501,15z/data=!3m1!4b1!4m6!3m5!1s0x470bed4527ebe035:0x2600af105c20fc81!8m2!3d50.1062508!4d14.5744784!16s%2Fm%2F0k0pbz4?entry=ttu"
+          data-lang="location"
+          >Location</a
+        >
+      </div>
+    </nav>
+    <div class="container">
+      <div class="product">
+        <img src="{%static 'images/amerikano.jpg'%}"/>
+        <h2 data-lang="espresso">Espresso</h2>
+        <p data-lang="espressoDesc">Rich and bold espresso</p>
+        <span data-lang="espressoPrice">Price: 70 CZK</span>
+      </div>
+      <div class="product">
+        <img src="{%static 'images/Cappuccino_Banana.jpg' %}" alt="Cappuccino Image" />
+        <h2 data-lang="cappuccino">Cappuccino</h2>
+        <p data-lang="cappuccinoDesc">Espresso with steamed milk</p>
+        <span data-lang="cappuccinoPrice">Price: 90 CZK</span>
+      </div>
+      
+      <div class="product">
+        <img src="menu/images/Cappuccino_Banana.jpg" alt="Cappuccino Image" />
+        <h2 data-lang="cappuccino">Cappuccino</h2>
+        <p data-lang="cappuccinoDesc">Espresso with Banana</p>
+        <span data-lang="cappuccinoPrice">Price: 90 CZK</span>
+      </div>
+      <div class="product">
+        <img src="menu/images/latte.jpg" alt="Latte Image" />
+        <h2 data-lang="latte">Latte</h2>
+        <p data-lang="latteDesc">Smooth and creamy latte</p>
+        <span data-lang="lattePrice">Price: 95 CZK</span>
+      </div>
+      <div class="product">
+        <img src="menu/images/cookie.jpg" alt="Cookie Image" />
+        <h2 data-lang="cookie">Cookie</h2>
+        <p data-lang="cookieDesc">Fresh baked cookie</p>
+        <span data-lang="cookiePrice">Price: 30 CZK</span>
+      </div>
+      <div class="product">
+        <img src="menu/images/muffin.jpg" alt="Muffin Image" />
+        <h2 data-lang="muffin">Muffin</h2>
+        <p data-lang="muffinDesc">Blueberry muffin</p>
+        <span data-lang="muffinPrice">Price: 50 CZK</span>
+      </div>
+    </div>
+    <div class="order-form">
+      <h2 data-lang="orderForm">Order Form</h2>
+      <label for="name" data-lang="name">Name</label>
+      <input type="text" id="name" />
+      <label for="email" data-lang="email">Email</label>
+      <input type="email" id="email" />
+      <label for="item-type" data-lang="itemType">Item Type</label>
+      <select id="item-type">
+        <option value="espresso" data-lang="espresso">Espresso</option>
+        <option value="cappuccino" data-lang="cappuccino">Cappuccino</option>
+        <option value="latte" data-lang="latte">Latte</option>
+        <option value="cookie" data-lang="cookie">Cookie</option>
+        <option value="muffin" data-lang="muffin">Muffin</option>
+      </select>
+      <label for="quantity" data-lang="quantity">Quantity</label>
+      <input type="number" id="quantity" min="1" value="1" />
+      <button onclick="addToCart()" data-lang="addToCart">Add to Cart</button>
+    </div>
+    <div class="cart">
+      <h2 data-lang="yourCart">Your Cart</h2>
+      <ul id="cart-items"></ul>
+      <div class="cart-total" id="cart-total"></div>
+      <button onclick="proceedToPayment()" data-lang="proceedToPayment">
+        Proceed to Payment
+      </button>
+    </div>
+    <div class="payment-form" style="display: none">
+      <h2 data-lang="paymentDetails">Payment Details</h2>
+      <label for="name-on-card" data-lang="nameOnCard">Name on Card</label>
+      <input type="text" id="name-on-card" />
+      <label for="card-number" data-lang="cardNumber">Card Number</label>
+      <input type="number" id="card-number" />
+      <label for="expiry-date" data-lang="expiryDate">Expiry Date</label>
+      <input type="text" id="expiry-date" />
+      <label for="cvv" data-lang="cvv">CVV</label>
+      <input type="number" id="cvv" />
+      <button onclick="submitPayment()" data-lang="submitPayment">
+        Submit Payment
+      </button>
+    </div>
+    <script>
+      const translations = {
+        en: {
+          home: "Home",
+          menu: "Menu",
+          aboutUsCareers: "About Us / Careers",
+          location: "Location",
+          title: "Kralovska Kava",
+          subtitle: "Your favorite coffee shop",
+          espresso: "Espresso",
+          espressoDesc: "Rich and bold espresso",
+          espressoPrice: "Price: 70 CZK",
+          cappuccino: "Cappuccino",
+          cappuccinoDesc: "Espresso with steamed milk",
+          cappuccinoPrice: "Price: 90 CZK",
+          latte: "Latte",
+          latteDesc: "Smooth and creamy latte",
+          lattePrice: "Price: 95 CZK",
+          cookie: "Cookie",
+          cookieDesc: "Fresh baked cookie",
+          cookiePrice: "Price: 30 CZK",
+          muffin: "Muffin",
+          muffinDesc: "Blueberry muffin",
+          muffinPrice: "Price: 50 CZK",
+          orderForm: "Order Form",
+          name: "Name",
+          email: "Email",
+          itemType: "Item Type",
+          quantity: "Quantity",
+          addToCart: "Add to Cart",
+          yourCart: "Your Cart",
+          proceedToPayment: "Proceed to Payment",
+          paymentDetails: "Payment Details",
+          nameOnCard: "Name on Card",
+          cardNumber: "Card Number",
+          expiryDate: "Expiry Date",
+          cvv: "CVV",
+          submitPayment: "Submit Payment",
+        },
+        ru: {
+          home: "Главная",
+          menu: "Меню",
+          aboutUsCareers: "О нас / Вакансии",
+          location: "Расположение",
+          title: "Королевская Кофейня",
+          subtitle: "Ваше любимое кафе",
+          espresso: "Эспрессо",
+          espressoDesc: "Насыщенный и крепкий эспрессо",
+          espressoPrice: "Цена: 70 CZK",
+          cappuccino: "Капучино",
+          cappuccinoDesc: "Эспрессо с парным молоком",
+          cappuccinoPrice: "Цена: 90 CZK",
+          latte: "Латте",
+          latteDesc: "Гладкий и кремовый латте",
+          lattePrice: "Цена: 95 CZK",
+          cookie: "Печенье",
+          cookieDesc: "Свежевыпеченное печенье",
+          cookiePrice: "Цена: 30 CZK",
+          muffin: "Маффин",
+          muffinDesc: "Черничный маффин",
+          muffinPrice: "Цена: 50 CZK",
+          orderForm: "Форма заказа",
+          name: "Имя",
+          email: "Эл. почта",
+          itemType: "Тип товара",
+          quantity: "Количество",
+          addToCart: "Добавить в корзину",
+          yourCart: "Ваша корзина",
+          proceedToPayment: "Перейти к оплате",
+          paymentDetails: "Платежные данные",
+          nameOnCard: "Имя на карте",
+          cardNumber: "Номер карты",
+          expiryDate: "Срок действия",
+          cvv: "CVV",
+          submitPayment: "Отправить платеж",
+        },
+        cz: {
+          home: "Domů",
+          menu: "Menu",
+          aboutUsCareers: "O nás / Kariéra",
+          location: "Místo",
+          title: "Královská Káva",
+          subtitle: "Vaše oblíbená kavárna",
+          espresso: "Espresso",
+          espressoDesc: "Bohaté a silné espresso",
+          espressoPrice: "Cena: 70 CZK",
+          cappuccino: "Cappuccino",
+          cappuccinoDesc: "Espresso s napěněným mlékem",
+          cappuccinoPrice: "Cena: 90 CZK",
+          latte: "Latte",
+          latteDesc: "Hladké a krémové latte",
+          lattePrice: "Cena: 95 CZK",
+          cookie: "Sušenka",
+          cookieDesc: "Čerstvě upečená sušenka",
+          cookiePrice: "Cena: 30 CZK",
+          muffin: "Muffin",
+          muffinDesc: "Borůvkový muffin",
+          muffinPrice: "Cena: 50 CZK",
+          orderForm: "Objednávkový formulář",
+          name: "Jméno",
+          email: "E-mail",
+          itemType: "Typ položky",
+          quantity: "Množství",
+          addToCart: "Přidat do košíku",
+          yourCart: "Váš košík",
+          proceedToPayment: "Přejít k platbě",
+          paymentDetails: "Platební údaje",
+          nameOnCard: "Jméno na kartě",
+          cardNumber: "Číslo karty",
+          expiryDate: "Datum vypršení platnosti",
+          cvv: "CVV",
+          submitPayment: "Odeslat platbu",
+        },
+      };
+
+      function changeLanguage() {
+        const language = document.getElementById("language-select").value;
+        localStorage.setItem("language", language);
+        const elements = document.querySelectorAll("[data-lang]");
+        elements.forEach((element) => {
+          const key = element.getAttribute("data-lang");
+          element.textContent = translations[language][key];
+        });
+      }
+
+      function loadLanguage() {
+        const language = localStorage.getItem("language") || "en";
+        document.getElementById("language-select").value = language;
+        changeLanguage();
+      }
+
+      window.onload = loadLanguage;
+
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      function addToCart() {
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const itemType = document.getElementById("item-type").value;
+        const quantity = document.getElementById("quantity").value;
+
+        if (!name || !email || !itemType || !quantity) {
+          alert("Please fill out all fields");
+          return;
+        }
+
+        const item = {
+          name,
+          email,
+          itemType,
+          quantity,
+        };
+
+        cart.push(item);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        displayCart();
+      }
+
+      function displayCart() {
+        const cartItems = document.getElementById("cart-items");
+        const cartTotal = document.getElementById("cart-total");
+        cartItems.innerHTML = "";
+        let total = 0;
+
+        cart.forEach((item, index) => {
+          const li = document.createElement("li");
+          li.textContent = `${item.itemType} x ${item.quantity} (${item.name}, ${item.email})`;
+          cartItems.appendChild(li);
+          total += parseInt(item.quantity) * getPrice(item.itemType);
+        });
+
+        cartTotal.textContent = `Total: ${total} CZK`;
+      }
+
+      function getPrice(itemType) {
+        switch (itemType) {
+          case "espresso":
+            return 70;
+          case "cappuccino":
+            return 90;
+          case "latte":
+            return 95;
+          case "cookie":
+            return 30;
+          case "muffin":
+            return 50;
+          default:
+            return 0;
+        }
+      }
+
+      function proceedToPayment() {
+        const paymentForm = document.querySelector(".payment-form");
+        paymentForm.style.display = "block";
+      }
+
+      function submitPayment() {
+        alert("Payment submitted");
+        cart = [];
+        localStorage.removeItem("cart");
+        displayCart();
+        const paymentForm = document.querySelector(".payment-form");
+        paymentForm.style.display = "none";
+      }
+
+      displayCart();
+    </script>
+  </body>
+</html>

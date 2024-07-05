@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Products - Kralovska Kava</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+        }
+        .header {
+            background-color: #8B4513;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #D2691E;
+            position: fixedd;
+            top: 0;
+            bottom: 0;
+            padding: 20px;
+        }
+        .sidebar a {
+            color: white;
+            display: block;
+            padding: 10px 0;
+            text-decoration: none;
+        }
+        .sidebar a:hover {
+            background-color: #A0522D;
+        }
+        .content {
+            margin-left: 220px;
+            padding: 20px;
+        }
+        .content h2 {
+            margin-top: 0;
+        }
+        .product-form input, .product-form button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .product-form button {
+            background-color: #8B4513;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .product-form button:hover {
+            background-color: #A0522D;
+        }
+        .product-list {
+            margin-top: 20px;
+        }
+        .product-item {
+            background-color: white;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Manage Products</h1>
+    </div>
+    <div class="sidebar">
+        <a href="admin-dashboard.html">Dashboard</a>
+        <a href="admin-products.html">Manage Products</a>
+        <a href="#">Settings</a>
+        <a href="admin-login.html">Logout</a>
+    </div>
+    <div class="content">
+        <h2>Add New Product</h2>
+        <form class="product-form">
+            <input type="text" name="product-name" placeholder="Product Name" required>
+            <input type="text" name="product-description" placeholder="Product Description" required>
+            <input type="number" name="product-price" placeholder="Price (CZK)" required>
+            <button type="submit">Add Product</button>
+        </form>
+        <div class="product-list">
+            <h2>Product List</h2>
+            <div class="product-item">
+                <h3>Espresso</h3>
+                <p>Rich and bold espresso</p>
+                <span>Price: 70 CZK</span>
+            </div>
+            <div class="product-item">
+                <h3>Cappuccino</h3>
+                <p>Espresso with steamed milk</p>
+                <span>Price: 90 CZK</span>
+            </div>
+            <div class="product-item">
+                <h3>Latte</h3>
+                <p>Espresso with milk</p>
+                <span>Price: 95 CZK</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
